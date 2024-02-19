@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1 name="Id" style="align-items: center;">ID product : <%= productData._id %></h1>
+  <form method="post" action="/updateProduct">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <input name="Id" type="text" class="form-control" hidden value="<%= productData._id %>">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Name Product</label>
+        <input name="name" value="<%= productData.name %>" type="text" class="form-control" id="inputEmail4" placeholder="Name Product">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">price</label>
+        <input name="price" value="<%= productData.price %>" type="number" class="form-control" id="inputPassword4" placeholder="price">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress">description</label>
+      <input name="description" value="<%= productData.description %>" type="text" class="form-control" id="inputAddress" placeholder="description">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Example file input</label>
+        <input name="imagePath" type="file" class="form-control-file" id="exampleFormControlFile1">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">Category</label>
+        <select id="inputState" name="CateID" class="form-control">
+          <option selected>Choose...</option>
+          <% for(let i = 0; i < cateData.length; i++) { %>
+          <option value="<%= cateData[i]._id %>" <%= cateData[i]._id.equals(productData.CateID._id) ? 'selected' : '' %>>
+            <%= cateData[i].Cate %>
+          </option>
+          <% } %>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</body>
+
+</html>
