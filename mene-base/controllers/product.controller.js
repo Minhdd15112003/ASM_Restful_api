@@ -1,5 +1,4 @@
-var express = require("express");
-var app = express();
+
 const cateModel = require("../models/cate.model");
 const productModel = require("../models/product.model");
 

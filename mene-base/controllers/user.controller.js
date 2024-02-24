@@ -1,18 +1,30 @@
 const userModel = require("../models/user.model");
-const bcrypt = require("bcrypt");
-const saltRounds = 5; // số vòng lặp mã hóa Độ phức tạp của thuật toán mã hóa
-const crypto = require("crypto");
+
 class UserController {
   //////////////////////////////// getUsers
   getUsers(req, res, next) {
     userModel
       .find({})
       .then(function (userData) {
-        res.render("home/userView/getUsers", { userData: userData });
+      //  res.render("home/userView/getUsers", { userData: userData });
+        res.json({ userData: userData});
       })
       .catch(function (error) {
         res.send("co loi xay ra", error.message);
       });
+  }
+
+  getUser(req, res, next) {
+    const id = req.params.id;
+    userModel.findById(id)
+   .then(function (userData) {
+    if (userData) {
+      res.json(userData);
+    } else {
+      res.send("Không tìm thấy người dùng với ID: " + id);
+    }
+  
+   })
   }
   //////////////////////////////// insertUsers
   getInsertUsersForm(req, res, next) {
@@ -20,28 +32,19 @@ class UserController {
   }
   insertUsers(req, res, next) {
     const { Email, Username, Password, PasswordCheck } = req.body;
-
-    bcrypt.hash(Password, saltRounds, function (err, hash) {
-      if (err) {
-        res.send("Có lỗi xảy ra khi mã hóa mật khẩu: " + err.message);
-        return;
-      }
-
-      const newUsers = {
-        Email: Email,
-        Username: Username,
-        Password: hash,
-      };
-
-      userModel
-        .create(newUsers)
-        .then(() => {
-          res.redirect("/getUsers");
-        })
-        .catch((error) => {
-          res.send("Them that bai " + error.message);
-        });
-    });
+    const newUsers = {
+      Email: Email,
+      Username: Username,
+      Password: Password,
+    };
+    userModel
+      .create(newUsers)
+      .then((user) => {
+        res.json({ user: user });
+      })
+      .catch((error) => {
+        res.send("Them that bai " + error.message);
+      });
   }
   //////////////////////////////////////////////////////////////// updateUser
   getUpdateUsersForm(req, res, next) {
@@ -51,7 +54,6 @@ class UserController {
       .then(function (user) {
         if (user) {
           res.render("home/userView/updateUser", { user: user, id: id });
-      
         } else {
           res.send("Không tìm thấy người dùng với ID: " + id);
         }
@@ -67,7 +69,7 @@ class UserController {
     const updatedUser = {
       Email: req.body.Email,
       Username: req.body.Username,
-     // Password: req.body.Password,
+      // Password: req.body.Password,
     };
     userModel
       .findByIdAndUpdate(id, updatedUser, { new: true }) // Option { new: true } để trả về người dùng đã được cập nhật
@@ -105,22 +107,22 @@ class UserController {
   }
   loginUser(req, res) {
     const { Email, Password } = req.body;
-
+    console.log('====================================');
+    console.log(req.body);
+    console.log('====================================');
     userModel
       .findOne({ Email: Email })
       .then((user) => {
         if (!user) {
-          res.send("không tìm thấy người dụng vơi Email " + user.Email);
+          res.status(501).send("không tìm thấy người dụng vơi Email " + user.Email);
         } else {
-          bcrypt.compare(Password, user.Password, function (err, result) {
-            if (err) {
-              res.send("Có lỗi xảy ra khi so sánh mật khẩu: " + err.message);
-            } else if (result) {
-              res.send("Đăng nhập thành công!!! " + result);
-            } else {
-              res.send("Mật khẩu không chính xác");
-            }
-          });
+          if (Password == user.Password) {
+           // res.send("Đăng nhập thành công!!!");
+           res.json(user);
+      
+          } else {
+            res.status(500).send("Mật khẩu không chính xác");
+          }
         }
       })
       .catch((error) => {
@@ -128,7 +130,5 @@ class UserController {
       });
   }
 }
-
-
 
 module.exports = new UserController();

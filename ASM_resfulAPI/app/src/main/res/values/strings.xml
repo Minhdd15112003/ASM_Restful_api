@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ASM_resfulAPI</string>
+    <string name="open_nav">open</string>
+    <string name="close_nav">close</string>
+    <string name="google_web_client_id">664714720815-nonmc485mh19elehrgi3a61ouetg9190.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

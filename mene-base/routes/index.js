@@ -6,6 +6,7 @@ const productCtrl = require("../controllers/product.controller");
 
 /* GET, POST User. */
 router.get("/getUsers", userCtrl.getUsers);
+router.get("/getUser/:id", userCtrl.getUser)
 //Login user 
 // router.get("/getLoginUsersForm",userCtrl.getLoginUsersForm);
 router.get("/",userCtrl.getLoginUsersForm);

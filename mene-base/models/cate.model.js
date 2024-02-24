@@ -6,7 +6,7 @@ var cateSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    product:{
+    Product:{
       type: mongoose.Schema.Types.ObjectId, 
       required: true,
       ref: "ProductModel"
