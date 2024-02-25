@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sau khi đăng nhập thành công:
                             SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("id", response.body().getId());
                             editor.putString("email", response.body().getEmail());
                             editor.putString("username", response.body().getUsername());
                             editor.putString("password", response.body().getPassword());
@@ -97,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         tvQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, HomeFragment.class);
+                Intent i = new Intent(LoginActivity.this, SiginActivity.class);
                 startActivity(i);
             }
         });

@@ -16,7 +16,7 @@ router.get("/getInsertUsersForm",userCtrl.getInsertUsersForm);
 router.post("/insertUser", userCtrl.insertUsers);
 //update user
 router.get("/getUpdateUsersForm/:id",userCtrl.getUpdateUsersForm);
-router.post("/updateUser", userCtrl.updateUser);
+router.post("/updateUser/:id", userCtrl.updateUser);
 //delete user
 router.get('/deleteUser/:id',userCtrl.deleteUser);
 

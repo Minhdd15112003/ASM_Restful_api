@@ -12,8 +12,8 @@ public interface UserServices {
 
     @GET("getUser")
     Call<UserModel> getUser(@Path("id") String user);
-    @POST("updateUser")
-    Call<UserModel> updateUser(@Body UserModel userModel);
+    @POST("updateUser/{id}")
+    Call<UserModel> updateUser( @Path("id") String id, @Body UserModel userModel);
     @POST("loginUser")
     Call<UserModel> postLoginUser(@Body UserModel userModel);
 

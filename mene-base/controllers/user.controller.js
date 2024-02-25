@@ -64,24 +64,31 @@ class UserController {
   }
 
   updateUser(req, res, next) {
-    const id = req.body.Id; // ID của người dùng cần cập nhật
-
+   // const id = req.body.Id; // ID của người dùng cần cập nhật
+    const id = req.params.id
     const updatedUser = {
       Email: req.body.Email,
       Username: req.body.Username,
       // Password: req.body.Password,
     };
+ 
+   
     userModel
       .findByIdAndUpdate(id, updatedUser, { new: true }) // Option { new: true } để trả về người dùng đã được cập nhật
       .then((user) => {
+        
         if (!user) {
-          res.send("Không tìm thấy người dùng với ID: " + id);
+          res.status(500).send("Không tìm thấy người dùng với ID: " + id);
+          // console.log('====================================');
+          // console.log(req.body);
+          // console.log('====================================');
         } else {
-          res.redirect("/getUsers");
+          //res.redirect("/getUsers");
+          res.json(user);
         }
       })
       .catch((error) => {
-        res.send("Cập nhật thất bại " + error.message);
+        res.status(501).send("Cập nhật thất bại " + error.message);
       });
   }
 
@@ -107,9 +114,9 @@ class UserController {
   }
   loginUser(req, res) {
     const { Email, Password } = req.body;
-    console.log('====================================');
-    console.log(req.body);
-    console.log('====================================');
+    // console.log('====================================');
+    // console.log(req.body);
+    // console.log('====================================');
     userModel
       .findOne({ Email: Email })
       .then((user) => {

@@ -70,10 +70,15 @@ class ProductController {
     productModel
       .find({})
       .then(function (productData) {
-        res.render("home/productView/getProduct", { productData: productData });
+        //res.render("home/productView/getProduct", { productData: productData });
+        if (productData) {
+          res.json(productData) 
+        } else {
+          res.status(501).send("Không tìm thấy người dùng" );
+        }
       })
       .catch(function (error) {
-        res.send("co loi xay ra", error.message);
+        res.status(500).send("co loi xay ra", error.message);
       });
   }
   //////////////////////////////insert Product

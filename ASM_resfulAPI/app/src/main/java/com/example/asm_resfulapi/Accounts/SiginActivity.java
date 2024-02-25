@@ -43,13 +43,12 @@ public class SiginActivity extends AppCompatActivity {
         btnDangNhap = findViewById(R.id.btnDangNhap);
         tvQuenMatKhau = findViewById(R.id.tvQuenMatKhau);
 
-        String Email = edtEmail.getText().toString().trim();
-        String Username = edUsername.getText().toString().trim();
-        String Password = edtMatKhau.getText().toString().trim();
-
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String Email = edtEmail.getText().toString().trim();
+                String Username = edUsername.getText().toString().trim();
+                String Password = edtMatKhau.getText().toString().trim();
                 UserServices userServices = APIServer.getServer().create(UserServices.class);
                 UserModel userModel = new UserModel(Email, Username, Password);
                 Call<UserModel> userModelCall = userServices.postRegisternUser(userModel);
@@ -61,7 +60,7 @@ public class SiginActivity extends AppCompatActivity {
                             Intent i = new Intent(SiginActivity.this, LoginActivity.class);
                             startActivity(i);
                         } else {
-                            Log.d("resLogin", "Response: " + response + "call" + call);
+                            Log.d("resLogin", "Response: " + response.body());
                             Toast.makeText(SiginActivity.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
